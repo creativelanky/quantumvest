@@ -43,7 +43,7 @@ export function Hero() {
         loop
         playsInline
       >
-        <source src="/15017666_3840_2160_25fps.mp4" type="video/mp4" />
+        <source src="/hero.mp4" type="video/mp4" />
       </video>
 
       {/* Dark overlay — same in both light and dark mode */}
