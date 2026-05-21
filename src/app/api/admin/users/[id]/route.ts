@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { createNotification } from '@/lib/supabase/notify'
 
 function isAdmin(request: NextRequest) {
   return request.cookies.get('admin_token')?.value === process.env.ADMIN_API_SECRET
@@ -42,6 +43,12 @@ export async function PATCH(request: NextRequest, { params }: Params) {
     .single()
 
   if (error) return NextResponse.json({ error: error.message }, { status: 400 })
+
+  // Send notification when KYC is marked as Verified
+  if (body.kyc_status === 'Verified') {
+    await createNotification(id, 'KYC Verified ✓', 'Your identity has been verified. You now have full access to deposits, withdrawals, and higher limits.', 'success')
+  }
+
   return NextResponse.json({ data })
 }
 

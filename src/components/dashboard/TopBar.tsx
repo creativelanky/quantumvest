@@ -1,8 +1,9 @@
 'use client'
 
-import { Bell, Menu } from 'lucide-react'
+import { Menu } from 'lucide-react'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
 import { useTopBarContext } from './TopBarContext'
+import { NotificationBell } from './NotificationBell'
 
 interface TopBarProps {
   title: string
@@ -32,14 +33,8 @@ export function TopBar({ title, subtitle }: TopBarProps) {
 
       {/* Right: actions */}
       <div className="flex items-center gap-2 sm:gap-3">
-        <button className="w-8 h-8 flex items-center justify-center border border-light-border dark:border-dark-border text-slate-500 dark:text-slate-400 hover:border-red-primary hover:text-red-primary transition-colors relative">
-          <Bell size={15} />
-          <span className="absolute top-1 right-1 w-1.5 h-1.5 bg-red-primary rounded-full" />
-        </button>
+        <NotificationBell />
         <ThemeToggle />
-        <div className="w-8 h-8 bg-red-primary flex items-center justify-center flex-shrink-0">
-          <span className="text-white text-xs font-bold">JD</span>
-        </div>
       </div>
     </header>
   )
