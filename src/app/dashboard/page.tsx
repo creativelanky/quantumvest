@@ -169,25 +169,25 @@ export default function DashboardPage() {
         <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-3">
           <Link
             href="/dashboard/deposit"
-            className="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-1.5 sm:gap-2 px-4 py-3 sm:py-2.5 text-xs sm:text-sm font-semibold bg-emerald-500 hover:bg-emerald-600 text-white border border-emerald-500 hover:border-emerald-600 transition-colors"
+            className="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-1.5 sm:gap-2 rounded-lg px-4 py-3 sm:py-2.5 text-xs sm:text-sm font-semibold bg-emerald-500 hover:bg-emerald-600 text-white border border-emerald-500 hover:border-emerald-600 transition-colors"
           >
             <ArrowDownToLine size={15} /><span>Deposit</span>
           </Link>
           <Link
             href="/dashboard/withdraw"
-            className="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-1.5 sm:gap-2 px-4 py-3 sm:py-2.5 text-xs sm:text-sm font-semibold bg-red-primary hover:bg-red-dim text-white border border-red-primary hover:border-red-dim transition-colors"
+            className="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-1.5 sm:gap-2 rounded-lg px-4 py-3 sm:py-2.5 text-xs sm:text-sm font-semibold bg-red-primary hover:bg-red-dim text-white border border-red-primary hover:border-red-dim transition-colors"
           >
             <ArrowUpFromLine size={15} /><span>Withdraw</span>
           </Link>
           <Link
             href="/dashboard/plans"
-            className="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-1.5 sm:gap-2 px-4 py-3 sm:py-2.5 border border-light-border dark:border-dark-border text-xs sm:text-sm font-semibold text-dark-base dark:text-white hover:border-red-primary hover:text-red-primary transition-colors"
+            className="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-1.5 sm:gap-2 rounded-lg px-4 py-3 sm:py-2.5 border border-light-border dark:border-dark-border text-xs sm:text-sm font-semibold text-dark-base dark:text-white hover:border-red-primary hover:text-red-primary transition-colors"
           >
             <TrendingUp size={15} /><span>Plans</span>
           </Link>
           <Link
             href="/dashboard/transactions"
-            className="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-1.5 sm:gap-2 px-4 py-3 sm:py-2.5 border border-light-border dark:border-dark-border text-xs sm:text-sm font-semibold text-dark-base dark:text-white hover:border-red-primary hover:text-red-primary transition-colors"
+            className="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-1.5 sm:gap-2 rounded-lg px-4 py-3 sm:py-2.5 border border-light-border dark:border-dark-border text-xs sm:text-sm font-semibold text-dark-base dark:text-white hover:border-red-primary hover:text-red-primary transition-colors"
           >
             <History size={15} /><span>History</span>
           </Link>

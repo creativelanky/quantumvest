@@ -67,7 +67,7 @@ export function Navbar() {
               </Link>
               <Link
                 href="/auth/register"
-                className="inline-flex items-center justify-center gap-2 font-bold tracking-tight px-4 py-2 text-sm bg-red-primary text-white hover:bg-red-dim border border-red-primary transition-all duration-150"
+                className="inline-flex items-center justify-center gap-2 font-bold tracking-tight rounded-lg px-4 py-2 text-sm bg-red-primary text-white hover:bg-red-dim border border-red-primary transition-all duration-150"
               >
                 Get Started
               </Link>
@@ -120,14 +120,14 @@ export function Navbar() {
                 <Link
                   href="/auth/login"
                   onClick={() => setMobileOpen(false)}
-                  className="flex items-center justify-center gap-2 font-bold tracking-tight px-4 py-2 text-sm border border-light-border dark:border-dark-border text-dark-base dark:text-white hover:border-red-primary hover:text-red-primary transition-all duration-150"
+                  className="flex items-center justify-center gap-2 font-bold tracking-tight rounded-lg px-4 py-2 text-sm border border-light-border dark:border-dark-border text-dark-base dark:text-white hover:border-red-primary hover:text-red-primary transition-all duration-150"
                 >
                   Sign In
                 </Link>
                 <Link
                   href="/auth/register"
                   onClick={() => setMobileOpen(false)}
-                  className="flex items-center justify-center gap-2 font-bold tracking-tight px-4 py-2 text-sm bg-red-primary text-white hover:bg-red-dim border border-red-primary transition-all duration-150"
+                  className="flex items-center justify-center gap-2 font-bold tracking-tight rounded-lg px-4 py-2 text-sm bg-red-primary text-white hover:bg-red-dim border border-red-primary transition-all duration-150"
                 >
                   Get Started Free
                 </Link>

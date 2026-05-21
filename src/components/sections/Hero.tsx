@@ -109,14 +109,14 @@ export function Hero() {
             >
               <Link
                 href="/auth/register"
-                className="inline-flex items-center justify-center gap-2 font-bold tracking-tight px-7 py-3.5 text-base bg-red-primary text-white hover:bg-red-dim border border-red-primary transition-all duration-150"
+                className="inline-flex items-center justify-center gap-2 font-bold tracking-tight rounded-lg px-7 py-3.5 text-base bg-red-primary text-white hover:bg-red-dim border border-red-primary transition-all duration-150"
               >
                 Start Trading
                 <ArrowRight size={16} />
               </Link>
               <Link
                 href="/auth/login"
-                className="inline-flex items-center justify-center gap-2 font-bold tracking-tight px-7 py-3.5 text-base border border-white/30 text-white hover:bg-white/10 transition-all duration-150"
+                className="inline-flex items-center justify-center gap-2 font-bold tracking-tight rounded-lg px-7 py-3.5 text-base border border-white/30 text-white hover:bg-white/10 transition-all duration-150"
               >
                 Sign In
               </Link>
