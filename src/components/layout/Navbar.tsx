@@ -25,14 +25,14 @@ export function Navbar() {
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-        className={cn(
-          'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-          scrolled
-            ? 'glass-card border-b border-light-border/60 dark:border-dark-border/60 py-3'
-            : 'bg-transparent border-b border-transparent py-5'
-        )}
+        className="fixed top-0 left-0 right-0 z-50 pt-3 px-4 sm:px-6 lg:px-8"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className={cn(
+          'max-w-7xl mx-auto rounded-2xl border transition-all duration-300 px-4 sm:px-5',
+          scrolled
+            ? 'bg-white/95 dark:bg-dark-card/95 border-light-border dark:border-dark-border backdrop-blur-md shadow-lg shadow-black/5 dark:shadow-black/25 py-3'
+            : 'bg-white/80 dark:bg-dark-card/80 border-light-border/60 dark:border-dark-border/60 backdrop-blur-sm py-4'
+        )}>
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2.5 group">
@@ -91,13 +91,13 @@ export function Navbar() {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="fixed top-[64px] left-0 right-0 z-40 glass-card border-b border-light-border dark:border-dark-border overflow-hidden"
+            initial={{ opacity: 0, y: -8, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -8, scale: 0.98 }}
+            transition={{ duration: 0.2, ease: 'easeOut' }}
+            className="fixed top-[72px] left-4 right-4 sm:left-6 sm:right-6 lg:left-8 lg:right-8 z-40 max-w-7xl mx-auto rounded-2xl border border-light-border dark:border-dark-border bg-white/95 dark:bg-dark-card/95 backdrop-blur-md shadow-xl shadow-black/10 dark:shadow-black/30 overflow-hidden"
           >
-            <nav className="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-1">
+            <nav className="px-4 py-4 flex flex-col gap-1">
               {navLinks.map((link, i) => (
                 <motion.div
                   key={link.href}

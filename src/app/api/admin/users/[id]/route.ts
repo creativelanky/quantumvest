@@ -34,6 +34,19 @@ export async function PATCH(request: NextRequest, { params }: Params) {
     if (key in body) updates[key] = body[key]
   }
 
+  // When profit is updated, auto-set balance = total completed deposits + new profit
+  if ('profit' in body) {
+    const { data: txs } = await admin
+      .from('transactions')
+      .select('amount')
+      .eq('user_id', id)
+      .eq('type', 'Deposit')
+      .eq('status', 'Completed')
+
+    const totalDeposited = (txs ?? []).reduce((sum, t) => sum + (t.amount ?? 0), 0)
+    updates.balance = totalDeposited + Number(body.profit)
+  }
+
   const { data, error } = await admin
     .from('profiles')
     .update(updates)
