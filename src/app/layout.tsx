@@ -4,7 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { TawkChat } from "@/components/ui/TawkChat";
 
-const SITE_URL = 'https://quantumvest.vercel.app'
+const SITE_URL = 'https://quantumvest-rosy.vercel.app'
 const OG_IMAGE = `${SITE_URL}/images/team-handshake.jpg`
 
 export const metadata: Metadata = {
