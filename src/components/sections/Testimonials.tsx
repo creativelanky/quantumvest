@@ -57,7 +57,7 @@ export function Testimonials() {
   const [activeVideo, setActiveVideo] = useState<string | null>(null)
 
   return (
-    <section className="bg-dark-base py-20 sm:py-28">
+    <section className="bg-light-base dark:bg-dark-base py-20 sm:py-28">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Heading */}
@@ -65,7 +65,7 @@ export function Testimonials() {
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-3xl sm:text-4xl font-bold text-white mb-14 text-center"
+          className="text-3xl sm:text-4xl font-bold text-dark-base dark:text-white mb-14 text-center"
         >
           What Our Clients Say:
         </motion.h2>
@@ -79,25 +79,25 @@ export function Testimonials() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="bg-dark-card border border-dark-border rounded-xl p-6 flex flex-col items-center text-center"
+              className="bg-light-surface dark:bg-dark-card border border-light-border dark:border-dark-border rounded-xl p-6 flex flex-col items-center text-center"
             >
               {/* Circular avatar */}
               <img
                 src={t.avatar}
                 alt={t.name}
-                className="w-20 h-20 rounded-full object-cover border-2 border-dark-border mb-4"
+                className="w-20 h-20 rounded-full object-cover border-2 border-light-border dark:border-dark-border mb-4"
               />
 
               {/* Stars */}
               <Stars />
 
               {/* Name */}
-              <p className="text-sm font-extrabold text-white tracking-widest uppercase mb-3">
+              <p className="text-sm font-extrabold text-dark-base dark:text-white tracking-widest uppercase mb-3">
                 {t.name}
               </p>
 
               {/* Quote */}
-              <p className="text-sm text-slate-400 leading-relaxed">
+              <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
                 {t.quote}
               </p>
             </motion.div>
