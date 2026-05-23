@@ -22,9 +22,11 @@ export const metadata: Metadata = {
     images: [
       {
         url: OG_IMAGE,
+        secureUrl: OG_IMAGE,
         width: 1600,
         height: 900,
         alt: "BIT-TESLA - Tesla Quantum Market",
+        type: "image/jpeg",
       },
     ],
   },
