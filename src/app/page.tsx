@@ -10,6 +10,8 @@ import { Testimonials } from "@/components/sections/Testimonials";
 import { Security } from "@/components/sections/Security";
 import { BTCSection } from "@/components/sections/BTCSection";
 import { FeatureImages } from "@/components/sections/FeatureImages";
+import { MarketAnalysis } from "@/components/sections/MarketAnalysis";
+import { UpToTheMinute } from "@/components/sections/UpToTheMinute";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { LiveTradeFeed } from "@/components/ui/LiveTradeFeed";
 
@@ -23,11 +25,13 @@ export default function Home() {
         <BTCSection />
         <Features />
         <FeatureImages />
+        <MarketAnalysis />
         <DashboardPreview />
         <HowItWorks />
         <InvestmentPlans />
         <Testimonials />
         <Security />
+        <UpToTheMinute />
         <FinalCTA />
       </main>
       <Footer />
