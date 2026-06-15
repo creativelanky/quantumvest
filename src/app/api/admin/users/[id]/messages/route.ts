@@ -47,3 +47,29 @@ export async function POST(req: NextRequest, { params }: Params) {
 
   return NextResponse.json({ data })
 }
+
+// PATCH — admin edits a previously sent message
+export async function PATCH(req: NextRequest, { params }: Params) {
+  if (!isAdmin(req)) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  const { id } = await params
+  const { messageId, content } = await req.json()
+
+  if (!messageId) return NextResponse.json({ error: 'messageId is required' }, { status: 400 })
+  if (!content?.trim()) return NextResponse.json({ error: 'Message is required' }, { status: 400 })
+
+  const admin = createAdminClient()
+
+  const { data, error } = await admin
+    .from('messages')
+    .update({ content: content.trim(), edited_at: new Date().toISOString() })
+    .eq('id', messageId)
+    .eq('user_id', id)
+    .eq('sender', 'admin') // admins may only edit their own (admin) messages
+    .select()
+    .single()
+
+  if (error) return NextResponse.json({ error: error.message }, { status: 400 })
+  if (!data) return NextResponse.json({ error: 'Message not found' }, { status: 404 })
+
+  return NextResponse.json({ data })
+}

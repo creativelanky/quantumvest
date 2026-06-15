@@ -10,6 +10,7 @@ interface Message {
   content: string
   read: boolean
   created_at: string
+  edited_at?: string | null
 }
 
 function formatTime(iso: string) {
@@ -152,6 +153,7 @@ export default function MessagesPage() {
                           {/* Timestamp */}
                           <p className={`text-[10px] mt-1 mx-1 ${isUser ? 'text-slate-400' : 'text-slate-400'}`}>
                             {formatTime(msg.created_at)}
+                            {msg.edited_at && <span className="italic"> · edited</span>}
                           </p>
                         </div>
 
@@ -170,13 +172,16 @@ export default function MessagesPage() {
 
       {/* Input bar */}
       <div className="bg-light-base dark:bg-dark-base border-t border-light-border dark:border-dark-border px-4 py-3">
-        <form onSubmit={handleSend} className="max-w-2xl mx-auto flex items-center gap-2">
-          <input
-            type="text"
+        <form onSubmit={handleSend} className="max-w-2xl mx-auto flex items-end gap-2">
+          <textarea
             value={input}
             onChange={e => setInput(e.target.value)}
-            placeholder="Type a message…"
-            className="flex-1 px-4 py-3 rounded-full border border-light-border dark:border-dark-border bg-light-surface dark:bg-dark-card text-dark-base dark:text-white text-sm focus:outline-none focus:border-red-primary transition-colors placeholder:text-slate-400"
+            onKeyDown={e => {
+              if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(e) }
+            }}
+            placeholder="Type a message…  (Shift+Enter for a new line)"
+            rows={Math.min(6, Math.max(1, input.split('\n').length))}
+            className="flex-1 px-4 py-3 rounded-3xl border border-light-border dark:border-dark-border bg-light-surface dark:bg-dark-card text-dark-base dark:text-white text-sm focus:outline-none focus:border-red-primary transition-colors placeholder:text-slate-400 resize-none leading-relaxed"
           />
           <button
             type="submit"

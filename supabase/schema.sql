@@ -55,6 +55,27 @@ CREATE POLICY "Users can create their own transactions"
   WITH CHECK (auth.uid() = user_id);
 
 
+-- 2b. MESSAGES — admin ↔ user support chat
+CREATE TABLE IF NOT EXISTS public.messages (
+  id         UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id    UUID NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
+  sender     TEXT NOT NULL CHECK (sender IN ('admin', 'user')),
+  content    TEXT NOT NULL,
+  read       BOOLEAN DEFAULT FALSE,
+  edited_at  TIMESTAMPTZ,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- If the table already exists from an earlier version, add the edit column:
+ALTER TABLE public.messages ADD COLUMN IF NOT EXISTS edited_at TIMESTAMPTZ;
+
+ALTER TABLE public.messages ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can read their own messages"
+  ON public.messages FOR SELECT
+  USING (auth.uid() = user_id);
+
+
 -- 3. TRIGGER: auto-create profile on signup
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER
