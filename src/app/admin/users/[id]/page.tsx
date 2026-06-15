@@ -97,11 +97,14 @@ export default function AdminUserDetailPage() {
   const [lightboxImg,   setLightboxImg]   = useState<string | null>(null)
 
   /* messaging state */
-  const [messages,    setMessages]    = useState<{ id: string; sender: string; content: string; created_at: string }[]>([])
+  const [messages,    setMessages]    = useState<{ id: string; sender: string; content: string; created_at: string; edited_at?: string | null }[]>([])
   const [msgInput,    setMsgInput]    = useState('')
   const [msgLoading,  setMsgLoading]  = useState(false)
   const [msgSending,  setMsgSending]  = useState(false)
   const [msgOpen,     setMsgOpen]     = useState(false)
+  const [editingMsgId, setEditingMsgId] = useState<string | null>(null)
+  const [editInput,    setEditInput]    = useState('')
+  const [editSaving,   setEditSaving]   = useState(false)
   const msgBottomRef = useRef<HTMLDivElement>(null)
 
   /* notification state */
@@ -275,6 +278,32 @@ export default function AdminUserDetailPage() {
       setTimeout(() => msgBottomRef.current?.scrollIntoView({ behavior: 'smooth' }), 50)
     }
     setMsgSending(false)
+  }
+
+  function startEditMessage(id: string, content: string) {
+    setEditingMsgId(id)
+    setEditInput(content)
+  }
+
+  function cancelEditMessage() {
+    setEditingMsgId(null)
+    setEditInput('')
+  }
+
+  async function saveEditMessage(id: string) {
+    if (!editInput.trim()) return
+    setEditSaving(true)
+    const res = await fetch(`/api/admin/users/${userId}/messages`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messageId: id, content: editInput.trim() }),
+    })
+    if (res.ok) {
+      const { data } = await res.json()
+      setMessages(prev => prev.map(m => (m.id === id ? data : m)))
+      cancelEditMessage()
+    }
+    setEditSaving(false)
   }
 
   useEffect(() => {
@@ -882,7 +911,17 @@ export default function AdminUserDetailPage() {
                 <p className="text-center text-sm text-slate-400 py-8">No messages yet. Start the conversation below.</p>
               ) : (
                 messages.map(msg => (
-                  <div key={msg.id} className={`flex ${msg.sender === 'admin' ? 'justify-end' : 'justify-start'}`}>
+                  <div key={msg.id} className={`group flex items-end gap-1.5 ${msg.sender === 'admin' ? 'justify-end' : 'justify-start'}`}>
+                    {/* Edit button for admin's own messages */}
+                    {msg.sender === 'admin' && editingMsgId !== msg.id && (
+                      <button
+                        onClick={() => startEditMessage(msg.id, msg.content)}
+                        title="Edit message"
+                        className="opacity-0 group-hover:opacity-100 transition-opacity text-slate-400 hover:text-red-primary flex-shrink-0 mb-1"
+                      >
+                        <Edit2 size={13} />
+                      </button>
+                    )}
                     <div className={`max-w-[75%] rounded-2xl px-4 py-2.5 text-sm ${
                       msg.sender === 'admin'
                         ? 'bg-red-primary text-white rounded-br-sm'
@@ -891,9 +930,36 @@ export default function AdminUserDetailPage() {
                       {msg.sender === 'user' && (
                         <p className="text-[10px] font-bold text-red-primary mb-1 uppercase tracking-wider">{profile.full_name || 'User'}</p>
                       )}
-                      <p className="leading-relaxed">{msg.content}</p>
+                      {editingMsgId === msg.id ? (
+                        <div className="space-y-2">
+                          <textarea
+                            value={editInput}
+                            onChange={e => setEditInput(e.target.value)}
+                            onKeyDown={e => {
+                              if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); saveEditMessage(msg.id) }
+                              if (e.key === 'Escape') cancelEditMessage()
+                            }}
+                            rows={Math.min(6, Math.max(2, editInput.split('\n').length))}
+                            autoFocus
+                            className="w-full px-2 py-1.5 rounded-lg bg-white/20 text-white placeholder:text-white/60 text-sm focus:outline-none resize-none"
+                          />
+                          <div className="flex gap-1.5 justify-end">
+                            <button onClick={() => saveEditMessage(msg.id)} disabled={editSaving || !editInput.trim()}
+                              className="flex items-center gap-1 px-2 py-1 rounded-md bg-white text-red-primary text-xs font-bold disabled:opacity-60">
+                              {editSaving ? <Loader2 size={11} className="animate-spin" /> : <><Check size={11} /> Save</>}
+                            </button>
+                            <button onClick={cancelEditMessage}
+                              className="flex items-center gap-1 px-2 py-1 rounded-md bg-white/20 text-white text-xs font-semibold">
+                              <X size={11} /> Cancel
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <p className="leading-relaxed whitespace-pre-wrap break-words">{msg.content}</p>
+                      )}
                       <p className={`text-[10px] mt-1 ${msg.sender === 'admin' ? 'text-white/60' : 'text-slate-400'}`}>
                         {new Date(msg.created_at).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })}
+                        {msg.edited_at && <span className="italic"> · edited</span>}
                       </p>
                     </div>
                   </div>
@@ -903,13 +969,16 @@ export default function AdminUserDetailPage() {
             </div>
 
             {/* Input */}
-            <form onSubmit={handleSendMessage} className="border-t border-light-border dark:border-dark-border p-3 flex gap-2">
-              <input
-                type="text"
+            <form onSubmit={handleSendMessage} className="border-t border-light-border dark:border-dark-border p-3 flex items-end gap-2">
+              <textarea
                 value={msgInput}
                 onChange={e => setMsgInput(e.target.value)}
-                placeholder="Type a message…"
-                className="flex-1 px-3 py-2 border border-light-border dark:border-dark-border bg-light-surface dark:bg-dark-surface text-sm text-dark-base dark:text-white focus:outline-none focus:border-red-primary transition-colors rounded-lg placeholder:text-slate-400"
+                onKeyDown={e => {
+                  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSendMessage(e) }
+                }}
+                placeholder="Type a message…  (Enter to send, Shift+Enter for a new line)"
+                rows={Math.min(6, Math.max(1, msgInput.split('\n').length))}
+                className="flex-1 px-3 py-2 border border-light-border dark:border-dark-border bg-light-surface dark:bg-dark-surface text-sm text-dark-base dark:text-white focus:outline-none focus:border-red-primary transition-colors rounded-lg placeholder:text-slate-400 resize-none leading-relaxed"
               />
               <button
                 type="submit"
